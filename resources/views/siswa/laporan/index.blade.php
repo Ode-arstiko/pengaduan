@@ -1,3 +1,13 @@
+@if (session('sendSuccess'))
+    <div class="px-4 py-3 bg-gradient-to-r from-green-500 to-green-400 mb-3 text-white font-semibold rounded-lg">
+        {{ session('sendSuccess') }}
+    </div>
+@endif
+@if (session('sendError'))
+    <div class="px-4 py-3 bg-gradient-to-r from-red-500 to-red-400 mb-3 text-white font-semibold rounded-lg">
+        {{ session('sendError') }}
+    </div>
+@endif
 <div class="w-full bg-white p-4 rounded-lg shadow-md border border-gray-200">
     <div class="text-center mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 mx-auto mb-1" fill="none"
@@ -15,7 +25,8 @@
             <!-- Judul -->
             <div class="flex-1">
                 <label for="judul" class="block text-sm font-medium text-gray-600 mb-1">Judul</label>
-                <input type="text" id="judul" name="title" value="{{ old('title') }}" placeholder="Judul singkat aduan"
+                <input type="text" id="judul" name="title" value="{{ old('title') }}"
+                    placeholder="Judul singkat aduan"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:ring-blue-200" />
             </div>
 
@@ -25,8 +36,19 @@
                 <select id="jenis" name="target_user_id"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:ring-blue-200">
                     <option value="" selected disabled>-- Pilih --</option>
-                    @foreach($sendto as $sen)
-                    <option value="{{ $sen->id }}">{{ $sen->nama }} - @if($sen->role == 'kepala-sekolah') Kepala Sekolah @elseif($sen->role == 'waka-kesiswaan') Waka Kesiswaan @elseif($sen->role == 'waka-kurikulum') Waka Kurikulum @elseif($sen->role == 'BK') BK @elseif($sen->role == 'tata-usaha') Tata Usaha @endif</option>
+                    @foreach ($sendto as $sen)
+                        <option value="{{ $sen->id }}">{{ $sen->nama }} - @if ($sen->role == 'kepala-sekolah')
+                                Kepala Sekolah
+                            @elseif($sen->role == 'waka-kesiswaan')
+                                Waka Kesiswaan
+                            @elseif($sen->role == 'waka-kurikulum')
+                                Waka Kurikulum
+                            @elseif($sen->role == 'BK')
+                                BK
+                            @elseif($sen->role == 'tata-usaha')
+                                Tata Usaha
+                            @endif
+                        </option>
                     @endforeach
                 </select>
             </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Report_photos;
 use App\Models\Reports;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,21 +30,26 @@ class SiswaLaporanController extends Controller
         ]);
         $data['reporter_id'] = Auth::user()->id;
         
-        $report = Reports::create($data);
-
-        if($request->hasFile('photos')) {
-            $no = 1;
-            foreach ($request->file('photos') as $file) {
-                $filename = date('YmdHis') . $no . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('assets/photos/'), $filename);
-                $data = [
-                    'report_id' => $report->id,
-                    'photo_url' => $filename
-                ];
-                Report_photos::create($data);
-                $no++;
+        try {
+            $report = Reports::create($data);
+    
+            if($request->hasFile('photos')) {
+                $no = 1;
+                foreach ($request->file('photos') as $file) {
+                    $filename = date('YmdHis') . $no . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('assets/photos/'), $filename);
+                    $data = [
+                        'report_id' => $report->id,
+                        'photo_url' => $filename
+                    ];
+                    Report_photos::create($data);
+                    $no++;
+                }
             }
         }
-        return redirect()->back();
+        catch (Exception $e) {
+            return redirect()->back()->with('sendError', 'Gagal mengirim laporan.');
+        }
+        return redirect()->back()->with('sendSuccess', 'Laporan berhasil terkirim, silahkan tunggu respon dari guru.');
     }
 }

@@ -1,5 +1,5 @@
-<main class="flex-1 p-6 overflow-y-auto">
-    <div class="flex justify-between items-center bg-blue-900 text-white px-6 py-4 rounded-lg shadow mb-6">
+<main class="flex-1 p-6 ml-0 sm:ml-64 overflow-y-auto">
+    <div class="flex justify-between itemssticky top-0-center bg-gradient-to-tl from-blue-700 to-teal-400 text-white px-6 py-4 rounded-lg shadow mb-6">
         <div class="flex items-center space-x-4">
             <button id="toggleSidebar"
                 class="sm:hidden p-2 text-white rounded-lg hover:bg-blue-700 transition">

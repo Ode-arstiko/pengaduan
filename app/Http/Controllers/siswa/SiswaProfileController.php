@@ -4,6 +4,7 @@ namespace App\Http\Controllers\siswa;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,7 +48,12 @@ class SiswaProfileController extends Controller
             $data['profile'] = $filename;
         }
 
-        $where->update($data);
-        return redirect()->back()->with('updateSuccess', 'Profil diperbarui!');
+        try {
+            $where->update($data);
+        } catch (Exception $e) {
+            return redirect()->back()->with('updateFailed', 'Profil gagal diperbarui.');
+        }
+
+        return redirect()->back()->with('updateSuccess', 'Profil berhasil diperbarui!');
     }
 }

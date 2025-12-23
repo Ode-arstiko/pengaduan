@@ -1,6 +1,6 @@
 <div class="">
     <div class="bg-white p-6 rounded-xl shadow-md max-w-3xl mx-auto">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Edit Profil</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-3 pb-3 border-b border-gray-200">Edit Profil</h2>
 
         <form action="/siswa/profile/update/{{ encrypt($user->id) }}" method="POST" enctype="multipart/form-data"
             class="space-y-6">
@@ -26,6 +26,17 @@
                 </div>
                 <p class="text-sm text-gray-500">Klik ikon kamera untuk ganti foto</p>
             </div>
+
+            @if (session('updateSuccess'))
+                <div class="mt-3 bg-gradient-to-r from-green-500 to-green-400 px-4 py-1 rounded-md text-white font-semibold">
+                    {{ session('updateSuccess') }}
+                </div>
+            @endif
+            @if (session('updateFailed'))
+                <div class="mt-3 bg-gradient-to-r from-red-500 to-red-400 px-4 py-1 rounded-md text-white font-semibold">
+                    {{ session('updateFailed') }}
+                </div>
+            @endif
 
             <!-- Nama -->
             <div>
@@ -68,19 +79,9 @@
                 <input type="password" id="password" name="password"
                     class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200 focus:outline-none" />
                 <button type="button" onclick="togglePassword()"
-                    class="absolute right-3 top-10 text-gray-500 hover:text-blue-600">
-                    <svg id="eye" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
-                    </svg>
-                    <svg id="eye-off" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4.477-10-10a9.961 9.961 0 011.454-5.212M3.515 3.515l16.97 16.97" />
-                    </svg>
+                    class="absolute right-3 top-8 text-gray-500 hover:text-blue-600">
+                    <i id="eye" class="fas fa-eye h-5 w-5"></i>
+                    <i id="eye-off" class="fas fa-eye-slash h-5 w-5 hidden"></i>
                 </button>
                 @error('password')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -90,7 +91,7 @@
             <!-- Tombol Simpan -->
             <div class="text-center pt-2">
                 <button type="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl transition">
+                    class="w-full bg-blue-600 hover:bg-blue-700 shadow-md text-white font-semibold py-2 rounded-xl transition">
                     Simpan Perubahan
                 </button>
             </div>

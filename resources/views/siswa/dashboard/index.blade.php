@@ -7,8 +7,7 @@
                 <h2 class="text-gray-500 text-sm font-medium">Total Aduan</h2>
                 <span class="bg-blue-100 text-blue-600 px-2 py-1 rounded-md text-xs">📄</span>
             </div>
-            <p class="text-2xl font-semibold mt-2">2</p>
-            <p class="text-green-500 text-xs mt-1">⬆ 12% vs bulan lalu</p>
+            <p class="text-2xl font-semibold mt-2">{{ $total_aduan }}</p>
         </div>
 
         <!-- Tiket Aktif -->
@@ -17,8 +16,7 @@
                 <h2 class="text-gray-500 text-sm font-medium">Aduan Aktif</h2>
                 <span class="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-md text-xs">⏱</span>
             </div>
-            <p class="text-2xl font-semibold mt-2">1</p>
-            <p class="text-red-500 text-xs mt-1">⬇ 3% vs bulan lalu</p>
+            <p class="text-2xl font-semibold mt-2">{{ $aduan_aktif }}</p>
         </div>
 
         <!-- Selesai -->
@@ -27,18 +25,16 @@
                 <h2 class="text-gray-500 text-sm font-medium">Selesai</h2>
                 <span class="bg-green-100 text-green-600 px-2 py-1 rounded-md text-xs">✔</span>
             </div>
-            <p class="text-2xl font-semibold mt-2">1</p>
-            <p class="text-green-500 text-xs mt-1">⬆ 8% vs bulan lalu</p>
+            <p class="text-2xl font-semibold mt-2">{{ $aduan_selesai }}</p>
         </div>
 
         <!-- Rata-rata Waktu -->
         <div class="bg-white rounded-2xl shadow p-4">
             <div class="flex items-center justify-between">
-                <h2 class="text-gray-500 text-sm font-medium">Rata-rata Waktu</h2>
-                <span class="bg-purple-100 text-purple-600 px-2 py-1 rounded-md text-xs">⏳</span>
+                <h2 class="text-gray-500 text-sm font-medium">Ditolak</h2>
+                <span class="bg-red-100 text-red-600 px-2 py-1 rounded-md text-xs">❌</span>
             </div>
-            <p class="text-2xl font-semibold mt-2">1 Jam</p>
-            <p class="text-green-500 text-xs mt-1">⬇ 15% vs bulan lalu</p>
+            <p class="text-2xl font-semibold mt-2">{{ $aduan_ditolak }}</p>
         </div>
     </div>
 
@@ -55,60 +51,46 @@
 
             <div class="space-y-5">
                 <!-- Tiket 1 -->
-                <div
-                    class="flex items-start gap-4 border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-all duration-200 bg-gray-50">
-                    <!-- Gambar -->
-                    <a href="detail-riwayat-selesai.html">
+                @foreach ($aduan_terbaru as $aduan)
+                    <div
+                        class="flex items-start gap-4 border border-gray-200 rounded-xl p-4
+                       hover:shadow-lg transition-all duration-200 bg-gray-50
+                       min-h-[120px]">
 
+                        <a href="/riwayat-laporan/detail/{{ encrypt($aduan->id) }}" class="flex-1">
+                            <div class="flex flex-col h-full">
 
-                        <!-- Konten -->
-                        <div class="flex-1">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <p class="font-semibold text-gray-900">Toilet Belakang Gedung B</p>
-                                    <p class="text-xs text-gray-500 mt-1">Rabu, 16 Juli 2025</p>
+                                <!-- Header -->
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-semibold text-gray-900">
+                                            {{ $aduan->title }}
+                                        </p>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            dibuat pada, {{ substr($aduan->created_at, 0, 10) }}
+                                        </p>
+                                    </div>
+
+                                    <span
+                                        class="text-xs font-semibold bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                                        {{ $aduan->status }}
+                                    </span>
                                 </div>
-                                <span
-                                    class="text-xs font-semibold bg-blue-100 text-blue-700 px-2 py-1 rounded-full">selesai</span>
+
+                                <!-- Deskripsi -->
+                                <p class="text-sm text-gray-700 mt-3 line-clamp-2 min-h-[2.5rem]">
+                                    {{ $aduan->description }}
+                                </p>
+
+                                <!-- Footer -->
+                                <p class="text-xs text-gray-400 mt-2">
+                                    {{ Auth::user()->nama }}
+                                </p>
+
                             </div>
-
-                            <p class="text-sm text-gray-700 mt-3 line-clamp-2">
-                                Toilet bagian belakang rusak dan air tidak mengalir, sudah diperbaiki sekarang.
-                                Terima kasih.
-                            </p>
-
-                            <p class="text-xs text-gray-400 mt-2">Siti Aminah</p>
-                        </div>
-                </div>
-                </a>
-
-                <!-- Tiket 2 -->
-                <div
-                    class="flex items-start gap-4 border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-all duration-200 bg-gray-50">
-                    <!-- Gambar -->
-                    <a href="detail-riwayat-ditolak.html">
-
-
-                        <!-- Konten -->
-                        <div class="flex-1">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <p class="font-semibold text-gray-900">Kantin Sekolah</p>
-                                    <p class="text-xs text-gray-500 mt-1">Sabtu, 19 Juli 2025</p>
-                                </div>
-                                <span
-                                    class="text-xs font-semibold bg-red-100 text-red-600 px-2 py-1 rounded-full">Ditolak</span>
-                            </div>
-
-                            <p class="text-sm text-gray-700 mt-3 line-clamp-2">
-                                Banyak sampah menumpuk di sekitar kantin dan belum dibersihkan sejak pagi. Harap
-                                ditindak.
-                            </p>
-
-                            <p class="text-xs text-gray-400 mt-2">Nur Hasanah</p>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
 
