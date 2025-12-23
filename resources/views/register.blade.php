@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login SMK N 2 Karanganyar</title>
+    <!-- <link href="src/output.css" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #4547ba 100%);
+        }
+
+        .card-shadow {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .floating-elements {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-elements:nth-child(2) {
+            animation-delay: -2s;
+        }
+
+        .floating-elements:nth-child(3) {
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            33% {
+                transform: translateY(-20px) rotate(1deg);
+            }
+
+            66% {
+                transform: translateY(10px) rotate(-1deg);
+            }
+        }
+
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+
+        .input-focus:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-hover {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .wave-animation {
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: translateX(0px);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-stack {
+                flex-direction: column;
+            }
+
+            .mobile-full {
+                width: 100%;
+            }
+
+            .mobile-padding {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex font-sans bg-gray-50">
+
+    <!-- Container Responsive -->
+    <div class="w-full flex mobile-stack min-h-screen ">
+
+        <!-- Left Section -->
+        <div
+            class="mobile-full lg:w-3/5 gradient-bg flex flex-col justify-center items-center  relative overflow-hidden mobile-padding lg:px-12 py-8 lg:py-0">
+
+            <!-- Floating Decorative Elements -->
+            <div class="absolute w-64 h-64 bg-white opacity-10 rounded-full -top-10 -left-10 floating-elements"></div>
+            <div class="absolute w-40 h-40 bg-white opacity-15 rounded-full top-1/4 right-10 floating-elements"></div>
+            <div class="absolute w-32 h-32 bg-white opacity-10 rounded-full bottom-20 left-1/4 floating-elements"></div>
+
+            <!-- Wave Background -->
+            <svg class="absolute bottom-0 left-0 w-full h-32 lg:h-40 wave-animation" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path d="M0,60 C200,100 400,20 600,60 C800,100 1000,20 1200,60 V120 H0 Z"
+                    fill="rgba(255, 255, 255, 0.1)" />
+            </svg>
+
+            <!-- Main Content -->
+            <div class="z-10 text-center lg:text-left">
+                <!-- Logo and Title -->
+                <div class="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-6 mb-8">
+                    <div
+                        class="w-24 h-24 lg:w-32 lg:h-32 bg-white rounded-full flex items-center justify-center shadow-2xl">
+                        <svg class="w-12 h-12 lg:w-16 lg:h-16 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                        </svg>
+                    </div>
+                    <div class="text-white">
+                        <h1 class="text-3xl lg:text-5xl xl:text-6xl font-bold leading-tight">SMK N 2</h1>
+                        <h1 class="text-3xl lg:text-5xl xl:text-6xl font-bold leading-tight">Karanganyar</h1>
+                        <p class="text-sm lg:text-lg font-medium mt-2 opacity-90">Inspiring Future Leaders</p>
+                    </div>
+                </div>
+
+                <!-- Quote -->
+                <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl p-6 max-w-lg mx-auto lg:mx-0 mb-8">
+                    <p class="text-white text-base lg:text-lg italic leading-relaxed">
+                        "Bersuara hari ini, mengubah masa depan. Mari bersama wujudkan perubahan di lingkungan sekolah
+                        kita!"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="mobile-full lg:w-2/5 flex items-center justify-center mobile-padding lg:p-8 bg-gray-50">
+            <div class="w-full max-w-md glass-effect mobile-padding lg:p-10 rounded-3xl card-shadow">
+
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gradient mb-2">Buat Akun Anda</h2>
+                    <p class="text-gray-600 font-medium">Daftar untuk melanjutkan</p>
+                </div>
+
+                <!-- Form -->
+                <!-- Tambahkan ini di bagian form register -->
+                <form action="/doRegister" class="space-y-6" method="POST">
+                    @csrf
+                    <!-- Nama Lengkap -->
+                    <div class="space-y-2">
+                        <label for="nama" class="block text-sm font-semibold text-gray-700">Nama Lengkap</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5.121 17.804A4 4 0 017 16h10a4 4 0 011.879.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap"
+                                required
+                                class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                        </div>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="space-y-2">
+                        <label for="username" class="block text-sm font-semibold text-gray-700">Username</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                            <input type="text" id="username" name="username" placeholder="Buat username" required
+                                class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="space-y-2">
+                        <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </div>
+                            <input type="password" id="password" name="password" placeholder="Buat password" required
+                                class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="space-y-2">
+                        <label for="email" class="block text-sm font-semibold text-gray-700">Email ( Boleh di
+                            Kosongkan )</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <rect x="2" y="4" width="20" height="16" rx="2" ry="2">
+                                    </rect>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <input type="email" id="email" placeholder="Masukkan email aktif"
+                                class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                        </div>
+                    </div>
+
+                    <!-- No. Telepon -->
+                    <div class="space-y-2">
+                        <label for="telepon" class="block text-sm font-semibold text-gray-700">No. Telepon ( Boleh di
+                            Kosongkan )</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 5h2l.4 2M7 13h10l1.2-6H6.4M5 21h14a2 2 0 002-2v-1H3v1a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <input type="tel" id="telepon" placeholder="Masukkan no. telepon aktif"
+                                class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                        </div>
+                    </div>
+
+                    <!-- Register Button -->
+                    <button type="submit"
+                        class="btn-hover w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg bg-green-600 hover:bg-green-700 text-center block transition duration-300">
+                        DAFTAR SEKARANG
+                    </button>
+
+                </form>
+
+                <p class="mt-8 text-center text-sm text-gray-600">
+                    Login ke akun yang sudah ada?
+                    <a href="/" class="font-semibold text-purple-600 hover:text-purple-800">Login
+                        sekarang</a>
+                </p>
+                <!-- Divider -->
+
+            </div>
+        </div>
+        <script src="https://cdn.tailwindcss.com"></script>
+</body>
+
+</html>
