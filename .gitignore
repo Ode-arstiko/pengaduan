@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 /public/assets/photos/*
 /public/assets/profil/*
+/public/assets/chat_photos/*

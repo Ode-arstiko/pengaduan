@@ -62,15 +62,24 @@
         </div>
 
         <!-- Upload Foto -->
+        <!-- Upload Foto -->
         <div>
-            <label for="foto" class="block text-sm font-medium text-gray-600 mb-1">Upload Foto (Bisa lebih dari
-                satu)</label>
+            <label for="foto" class="block text-sm font-medium text-gray-600 mb-1">
+                Upload Foto (Bisa lebih dari satu)
+            </label>
+
             <input type="file" accept="image/*" id="foto" name="photos[]" multiple
-                class="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg bg-white file:mr-3 file:py-2 file:px-4
-                       file:rounded-md file:border-0 file:text-sm file:font-medium
-                       file:bg-blue-50 file:text-blue-700
-                       hover:file:bg-blue-100 transition duration-200" />
+                class="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg bg-white
+               file:mr-3 file:py-2 file:px-4
+               file:rounded-md file:border-0 file:text-sm file:font-medium
+               file:bg-blue-50 file:text-blue-700
+               hover:file:bg-blue-100 transition duration-200" />
         </div>
+
+        <!-- PREVIEW IMAGE -->
+        <div id="imagePreviewContainer" class="flex gap-3 mt-2 hidden flex-wrap">
+        </div>
+
 
         <!-- Tombol -->
         <div class="text-right pt-2">
@@ -81,3 +90,68 @@
         </div>
     </form>
 </div>
+<script>
+    const inputFile = document.getElementById('foto');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    let selectedFiles = [];
+
+    inputFile.addEventListener('change', function () {
+        previewContainer.innerHTML = '';
+        selectedFiles = Array.from(this.files);
+
+        if (selectedFiles.length > 0) {
+            previewContainer.classList.remove('hidden');
+        } else {
+            previewContainer.classList.add('hidden');
+        }
+
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const wrapper = document.createElement('div');
+                wrapper.className =
+                    'relative w-24 h-24 rounded-lg overflow-hidden shadow';
+
+                wrapper.innerHTML = `
+                    <img src="${e.target.result}"
+                        class="w-full h-full object-cover rounded-lg">
+
+                    <button type="button"
+                        onclick="removeImage(${index})"
+                        class="absolute top-1 right-1
+                            w-6 h-6
+                            flex items-center justify-center
+                            bg-white text-gray-700
+                            rounded-full shadow-md
+                            hover:bg-red-500 hover:text-white transition">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            class="w-4 h-4">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                `;
+
+                previewContainer.appendChild(wrapper);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+
+    function removeImage(index) {
+        selectedFiles.splice(index, 1);
+
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => dataTransfer.items.add(file));
+        inputFile.files = dataTransfer.files;
+
+        inputFile.dispatchEvent(new Event('change'));
+    }
+</script>
