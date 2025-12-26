@@ -36,8 +36,10 @@ Route::get('/register', [AuthController::class, 'register']);
 Route::post('/doRegister', [AuthController::class, 'doRegister']);
 Route::post('/doLogin', [AuthController::class, 'doLogin']);
 Route::get('/logout', [AuthController::class, 'logout']);
+
 Route::post('/notifikasi/read/{id}', [Controller::class, 'markAsRead']);
 Route::post('/notifikasi/markAll', [Controller::class, 'markAll']);
+Route::delete('/notifikasi/delete/{id}', [Controller::class, 'deleteNotif']);
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {

@@ -28,6 +28,19 @@
                 <p class="text-sm text-gray-500">Klik ikon kamera untuk ganti foto</p>
             </div>
 
+            @if (session('updateSuccess'))
+                <div
+                    class="mt-3 bg-gradient-to-r from-green-500 to-green-400 px-4 py-1 rounded-md text-white font-semibold">
+                    {{ session('updateSuccess') }}
+                </div>
+            @endif
+            @if (session('updateFailed'))
+                <div
+                    class="mt-3 bg-gradient-to-r from-red-500 to-red-400 px-4 py-1 rounded-md text-white font-semibold">
+                    {{ session('updateFailed') }}
+                </div>
+            @endif
+
             <!-- Nama -->
             <div>
                 <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>

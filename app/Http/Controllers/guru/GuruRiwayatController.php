@@ -79,7 +79,7 @@ class GuruRiwayatController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect('/guru/riwayat/detail/' . $id . '#kolom-chat');
     }
 
     public function selesai($id)

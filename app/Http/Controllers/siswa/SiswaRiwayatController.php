@@ -75,6 +75,6 @@ class SiswaRiwayatController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect('/riwayat-laporan/detail/' . $id . '#kolom-chat');
     }
 }

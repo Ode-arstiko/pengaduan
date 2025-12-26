@@ -147,7 +147,7 @@
             <div class="flex {{ $isMe ? 'justify-end' : 'justify-start' }}">
                 <div class="flex items-start gap-2 {{ $isMe ? 'flex-row-reverse' : '' }}">
 
-                    <img src="{{ asset('assets/profil/' . $profileImage) }}" class="w-9 h-9 rounded-full object-cover">
+                    <img src="{{ asset('assets/profil/' . $profileImage) }}" class="w-9 h-9 rounded-full border-2 border-blue-300 object-cover">
 
                     <!-- BUBBLE -->
                     <div
@@ -236,7 +236,7 @@
 
 
     <!-- Input Chat -->
-    <form action="/guru/riwayat/send/{{ encrypt($riwayat->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="/guru/riwayat/send/{{ encrypt($riwayat->id) }}" method="POST" enctype="multipart/form-data" id="kolom-chat">
         @csrf
         <!-- Preview Image -->
         <div id="imagePreviewContainer" class="flex gap-3 mb-2 hidden flex-wrap"></div>

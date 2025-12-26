@@ -28,4 +28,9 @@ class Controller extends BaseController
         }
         return response()->json(['success' => true]);
     }
+
+    public function deleteNotif($id) {
+        $notif = Notifications::find($id);
+        $notif->delete();
+    }
 }

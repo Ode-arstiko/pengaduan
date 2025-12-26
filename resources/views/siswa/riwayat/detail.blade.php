@@ -145,7 +145,7 @@
             <div class="flex {{ $isMe ? 'justify-end' : 'justify-start' }}">
                 <div class="flex items-start gap-2 {{ $isMe ? 'flex-row-reverse' : '' }}">
 
-                    <img src="{{ asset('assets/profil/' . $profileImage) }}" class="w-9 h-9 rounded-full object-cover">
+                    <img src="{{ asset('assets/profil/' . $profileImage) }}" class="w-9 h-9 border-2 border-blue-300 rounded-full object-cover">
 
                     <!-- BUBBLE -->
                     <div
@@ -233,7 +233,7 @@
     </div>
 
     <!-- Input Chat -->
-    <form action="/riwayat-laporan/send/{{ encrypt($riwayat->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="/riwayat-laporan/send/{{ encrypt($riwayat->id) }}" method="POST" enctype="multipart/form-data" id="kolom-chat">
         @csrf
         <!-- Preview Image -->
         <div id="imagePreviewContainer" class="flex gap-3 mb-2 hidden flex-wrap"></div>
@@ -252,7 +252,7 @@
             <input type="file" id="file-upload" name="photos[]" accept="image/*" multiple class="hidden"
                 {{ $riwayat->status == 'proses' ? '' : 'disabled' }} />
             <input type="text"
-                placeholder="{{ $riwayat->status == 'proses' ? 'Ketik tanggapan...' : 'Tunggu hingga penerima laporan mensetujui laporan...' }}{{ $riwayat->status == 'selesai' ? 'Sesi percakapan ditutup, laporan sudah di selesaikan...' : '' }}"
+                placeholder="{{ $riwayat->status == 'proses' ? 'Ketik tanggapan...' : ($riwayat->status == 'selesai' ? 'Sesi percakapan ditutup, laporan sudah di selesaikan...' : 'Tunggu hingga penerima laporan mensetujui laporan...') }}"
                 name="message" class="flex-1 px-3 py-2 outline-none text-sm" required
                 {{ $riwayat->status == 'proses' ? '' : 'readonly' }} />
 

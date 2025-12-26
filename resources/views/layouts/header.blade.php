@@ -41,7 +41,7 @@
                         @foreach ($notifications as $notif)
                             @if ($notif->report_id == null)
                                 <a
-                                    href="{{ $notif->chat->receiver->role == 'siswa' ? '/riwayat-laporan/detail/' . encrypt($notif->chat->report_id) : '/guru/riwayat/detail/' . encrypt($notif->chat->report_id) }}">
+                                    href="{{ $notif->chat->receiver->role == 'siswa' ? '/riwayat-laporan/detail/' . encrypt($notif->chat->report_id) : '/guru/riwayat/detail/' . encrypt($notif->chat->report_id) }}#kolom-chat">
                                     <div class="flex px-4 py-3 hover:bg-gray-100 light:hover:bg-gray-700">
                                         <div class="shrink-0 relative">
                                             <i class="fas fa-envelope text-black text-lg"></i>
@@ -149,7 +149,7 @@
 
                         <hr class="border-gray-200" />
 
-                        <a href="/siswa/profile" class="block px-4 py-2 hover:bg-blue-50 text-center">Edit
+                        <a href="{{ Auth::user()->role == 'siswa' ? '/siswa/profile' : '/guru/profile' }}" class="block px-4 py-2 hover:bg-blue-50 text-center">Edit
                             Profil</a>
                         <a href="/logout" class="block px-4 py-2 hover:bg-blue-50 text-center text-red-500">Logout</a>
                     </div>

@@ -24,8 +24,8 @@
                         ? '/guru/tanggapan'
                         : '/guru/riwayat/detail/' . encrypt($notif->report_id))
                     : ($notif->chat->receiver->role == 'siswa'
-                        ? '/riwayat-laporan/detail/' . encrypt($notif->chat->report_id)
-                        : '/guru/riwayat/detail/' . encrypt($notif->chat->report_id)) }}"
+                            ? '/riwayat-laporan/detail/' . encrypt($notif->chat->report_id) . '#kolom-chat'
+                            : '/guru/riwayat/detail/' . encrypt($notif->chat->report_id)) . '#kolom-chat' }}"
                     class="block px-5 py-4 rounded-lg {{ $notif->status == 'baru' ? 'bg-yellow-50/70 hover:bg-yellow-50' : 'hover:bg-gray-50' }} transition">
 
                     <div class="flex gap-4">
@@ -58,7 +58,7 @@
                                 </p>
 
                                 <div class="flex items-center">
-                                    <span class="text-xs text-gray-400 me-2">
+                                    <span class="text-xs text-gray-400 me-2 {{ $notif->status == 'baru' ? 'hidden sm:flex' : '' }}">
                                         {{ $notif->created_at->format('d M Y, H:i') }}
                                     </span>
                                     @if ($notif->status == 'baru')
@@ -86,8 +86,12 @@
                 <div id="contextMenu"
                     class="hidden fixed z-50 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
                     <button id="markAsReadBtn"
-                        class="w-full rounded-lg text-left px-4 py-2 text-sm hover:bg-gray-100 transition duration-200">
+                        class="w-full rounded-t-lg text-left px-4 py-2 text-sm hover:bg-gray-100 transition duration-200">
                         Tandai sudah dibaca
+                    </button>
+                    <button id="deleteBtn"
+                        class="w-full rounded-b-lg text-left px-4 py-2 text-sm bg-red-100 hover:bg-red-200 transition duration-200">
+                        <i class="fas fa-trash me-2 text-red-600"></i><span class="text-red-500">Hapus</span>
                     </button>
                 </div>
             </div>
@@ -107,8 +111,10 @@
 
 <script>
     let currentNotifId = null;
+    let pressTimer = null;
     const menu = document.getElementById('contextMenu');
     const markBtn = document.getElementById('markAsReadBtn');
+    const deleteBtn = document.getElementById('deleteBtn');
 
     // klik kanan
     document.addEventListener('contextmenu', function(e) {
@@ -128,12 +134,42 @@
         menu.classList.add('hidden');
     });
 
+    document.addEventListener('touchstart', e => {
+        const item = e.target.closest('.notif-item');
+        if (!item) return;
+
+        pressTimer = setTimeout(() => {
+            const touch = e.touches[0];
+
+            e.preventDefault();
+            currentNotifId = item.dataset.id;
+            menu.classList.remove('hidden');
+            menu.style.left = e.pageX + 'px';
+            menu.style.top = e.pageY + 'px';
+        }, 500);
+    });
+
+    document.addEventListener('touchend', () => {
+        clearTimeout(pressTimer);
+    });
+
     // aksi tandai dibaca
     markBtn.addEventListener('click', function() {
         if (!currentNotifId) return;
 
         fetch(`/notifikasi/read/${currentNotifId}`, {
             method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        }).then(location.reload());
+    });
+
+    deleteBtn.addEventListener('click', function() {
+        if (!currentNotifId) return;
+
+        fetch(`/notifikasi/delete/${currentNotifId}`, {
+            method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
