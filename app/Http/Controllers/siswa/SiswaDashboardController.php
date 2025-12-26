@@ -22,6 +22,6 @@ class SiswaDashboardController extends Controller
             'aduan_ditolak' => Reports::where('reporter_id', Auth::user()->id)->where('status', 'ditolak')->count(),
             'aduan_terbaru' => $aduan_terbaru,
         ];
-        return view('layouts.siswa.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 }

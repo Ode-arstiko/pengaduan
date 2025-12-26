@@ -5,6 +5,7 @@ namespace App\Http\Controllers\guru;
 use App\Http\Controllers\Controller;
 use App\Models\Chat_photos;
 use App\Models\Chats;
+use App\Models\Notifications;
 use App\Models\Report_photos;
 use App\Models\Reports;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class GuruRiwayatController extends Controller
             'riwayat' => Reports::where('target_user_id', Auth::user()->id)->where('status', '!=', 'baru')->latest()->get()
         ];
 
-        return view('layouts.guru.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function detail($id)
@@ -29,7 +30,7 @@ class GuruRiwayatController extends Controller
         $idDec = decrypt($id);
         $data = [
             'content' => 'guru.riwayat.detail',
-            'title' => 'Riwayat',
+            'title' => 'Riwayat_detail',
             'riwayat' => Reports::find($idDec),
             'photo' => Report_photos::where('report_id', $idDec)->first(),
             'chats' => Chats::where('report_id', $idDec)
@@ -37,7 +38,7 @@ class GuruRiwayatController extends Controller
                 ->oldest()
                 ->get()
         ];
-        return view('layouts.guru.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function send(Request $request, $id)
@@ -54,6 +55,12 @@ class GuruRiwayatController extends Controller
             'sender_id' => $request->sender_id,
             'receiver_id' => $request->receiver_id,
             'message' => $request->message
+        ]);
+
+        Notifications::create([
+            'title' => 'Pesan Baru',
+            'user_id' => $chat->receiver_id,
+            'chat_id' => $chat->id
         ]);
 
         if (!$chat) {

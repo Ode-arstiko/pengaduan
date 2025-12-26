@@ -3,45 +3,78 @@
 namespace App\Http\Controllers\siswa;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chat_photos;
 use App\Models\Chats;
+use App\Models\Notifications;
 use App\Models\Report_photos;
 use App\Models\Reports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class SiswaRiwayatController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $data = [
             'content' => 'siswa.riwayat.index',
             'title' => 'Riwayat',
             'riwayat' => Reports::where('reporter_id', Auth::user()->id)->latest()->get()
         ];
-        return view('layouts.siswa.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
-    public function detail($id) {
+    public function detail($id)
+    {
         $idDec = decrypt($id);
         $data = [
             'content' => 'siswa.riwayat.detail',
-            'title' => 'Riwayat',
+            'title' => 'Riwayat_detail',
             'riwayat' => Reports::find($idDec),
             'photo' => Report_photos::where('report_id', $idDec)->first(),
             'chats' => Chats::where('report_id', $idDec)->oldest()->get()
         ];
-        return view('layouts.siswa.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
-    public function send(Request $request, $id) {
+    public function send(Request $request, $id)
+    {
         $idDec = decrypt($id);
-        $request->validate(['message' => 'required']);
-        $data = [
+
+        $request->validate([
+            'message' => 'required',
+            'photos.*' => 'image|mimes:jpg,jpeg,png,webp'
+        ]);
+
+        $chat = Chats::create([
             'report_id' => $idDec,
             'sender_id' => $request->sender_id,
             'receiver_id' => $request->receiver_id,
             'message' => $request->message
-        ];
-        Chats::create($data);
+        ]);
+
+        Notifications::create([
+            'title' => 'Pesan Baru',
+            'user_id' => $chat->receiver_id,
+            'chat_id' => $chat->id
+        ]);
+
+        if (!$chat) {
+            return back()->with('error', 'Chat gagal disimpan');
+        }
+
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                $fileName = time() . '_' . Str::random(10) . '.' . $photo->extension();
+                $photo->move(public_path('assets/chat_photos'), $fileName);
+
+                Chat_photos::create([
+                    'chat_id' => $chat->id,
+                    'photo_url' => $fileName
+                ]);
+            }
+        }
+
         return redirect()->back();
     }
 }

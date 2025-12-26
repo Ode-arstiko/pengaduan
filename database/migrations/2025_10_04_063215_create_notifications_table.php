@@ -13,26 +13,23 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            // penerima notifikasi
+            $table->string('title', 200);
             $table->foreignId('user_id')
                   ->constrained('users')
                   ->cascadeOnDelete();
 
-            // notifikasi terkait laporan (boleh null)
             $table->foreignId('report_id')
                   ->nullable()
                   ->constrained('reports')
                   ->nullOnDelete();
 
-            // pengirim notifikasi (boleh null)
-            $table->foreignId('sender_id')
+            $table->foreignId('chat_id')
                   ->nullable()
-                  ->constrained('users')
+                  ->constrained('chats')
                   ->nullOnDelete();
+            $table->enum('status', ['baru', 'dibaca'])->default('baru');
 
-            $table->string('title', 200);
-            $table->text('message');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
     }
 

@@ -1,4 +1,4 @@
-<div class="flex space-x-4 mb-4 lg:px-10">
+<div class="fixed bg-gray-100 w-full top-0 pb-1 pt-[110px] flex space-x-4 mb-4 lg:px-12">
     <button onclick="filterLaporan('all', this)" id="btn-all"
         class="filter-button text-green-600 border-b-2 border-green-600 pb-2 font-medium">
         Riwayat
@@ -16,7 +16,7 @@
         Ditolak
     </button>
 </div>
-<div id="laporan-container" class="space-y-4 lg:px-10">
+<div id="laporan-container" class="space-y-4 lg:px-10 mt-[80px]">
     <!-- DITERIMA - BK -->
 	@foreach($riwayat as $riw)
     <div onclick="window.location.href='/riwayat-laporan/detail/{{ encrypt($riw->id) }}'" data-status="{{ $riw->status }}"
@@ -30,24 +30,24 @@
 
         <!-- Tengah: Isi laporan -->
         <div class="flex-1 mx-4">
-            <div class="text-sm text-gray-500 mb-1">
+            <div class="text-xs sm:text-sm text-gray-500 mb-1">
                 <span class="font-medium text-gray-700">Nama Pengadu:</span> {{ $riw->reporter->nama }}
             </div>
             <div class="text-base font-semibold text-gray-900 leading-tight">
                 {{ $riw->title }}
             </div>
             <div class="text-sm text-gray-700 mt-1 line-clamp-2">
-                {{ $riw->description }}
+                {{ substr($riw->description, 0, 20) }}...
             </div>
-            <div class="text-sm text-gray-500 mt-2">
-                <span class="font-medium text-gray-700">Ditujukan Kepada:</span> {{ $riw->target->role }}
+            <div class="text-sm hidden sm:flex text-gray-500 mt-2">
+                <span class="font-medium text-gray-700 mr-1">Ditujukan Kepada:</span>{{ $riw->target->role }}
             </div>
         </div>
 
         <!-- Kanan: Status dan waktu -->
         <div class="flex flex-col items-end justify-between text-right h-full">
-            <div class="text-sm font-medium text-gray-700">
-                {{ $riw->created_at }}
+            <div class="text-xs sm:text-sm font-medium text-gray-700">
+                {{ substr($riw->created_at, 0, 10) }}
             </div>
             <button class="mt-2 text-xs font-semibold bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
                 {{ $riw->status }}

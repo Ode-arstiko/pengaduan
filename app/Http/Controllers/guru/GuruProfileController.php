@@ -15,7 +15,7 @@ class GuruProfileController extends Controller
             'title' => 'Profil Saya',
             'user' => User::find(Auth::user()->id)
         ];
-        return view('layouts.guru.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function update(Request $request, $id)

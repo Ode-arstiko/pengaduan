@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Siswa;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notifications;
 use App\Models\Report_photos;
 use App\Models\Reports;
 use App\Models\User;
@@ -19,19 +20,25 @@ class SiswaLaporanController extends Controller
             'sendto' => User::where('role', '!=', 'admin')->where('role', '!=', 'siswa')->get()
         ];
 
-        return view('layouts.siswa.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function send(Request $request) {
         $data = $request->validate([
             'target_user_id' => 'required',
-            'title' => 'required',
+            'title' => 'required|max:30',
             'description' => 'required',
         ]);
         $data['reporter_id'] = Auth::user()->id;
         
         try {
             $report = Reports::create($data);
+
+            Notifications::create([
+                'title' => 'Laporan Baru',
+                'user_id' => $report->target_user_id,
+                'report_id' => $report->id
+            ]);
     
             if($request->hasFile('photos')) {
                 $no = 1;

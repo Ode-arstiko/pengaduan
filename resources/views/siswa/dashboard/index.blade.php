@@ -39,7 +39,7 @@
     </div>
 
     <!-- Bottom Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 ">
+    <div class="grid grid-cols-1 gap-4 ">
 
         <!-- Tiket Terbaru -->
         <div class="bg-white rounded-2xl shadow-md p-6 col-span-2">
@@ -79,7 +79,7 @@
 
                                 <!-- Deskripsi -->
                                 <p class="text-sm text-gray-700 mt-3 line-clamp-2 min-h-[2.5rem]">
-                                    {{ $aduan->description }}
+                                    {{ substr($aduan->description, 0, 35) }}...
                                 </p>
 
                                 <!-- Footer -->
@@ -93,38 +93,5 @@
                 @endforeach
             </div>
         </div>
-
-        <!-- Distribusi Status -->
-        <div class="bg-white rounded-2xl shadow p-4">
-            <canvas id="myChart" class="w-full max-w-xl h-96 mx-auto"></canvas>
-        </div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-
-        <script>
-            const xValues = ["Pending", "Proses", "Selesai", "Ditolak"];
-            const yValues = [20, 30, 40, 10];
-            const barColors = ["#eab308", "#22c55e", "#2563eb", "#ef4444"];
-
-            new Chart("myChart", {
-                type: "pie",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                        backgroundColor: barColors,
-                        data: yValues
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: "Distribusi Status Pengaduan"
-                    },
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
-        </script>
-
     </div>
 </div>

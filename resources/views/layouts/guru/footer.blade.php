@@ -1,4 +1,3 @@
-</main>
 
 <script>
     function toggleDropdown() {

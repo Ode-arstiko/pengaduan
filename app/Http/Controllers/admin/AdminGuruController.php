@@ -14,7 +14,7 @@ class AdminGuruController extends Controller
             'title' => 'Guru',
             'guru' => User::where('role', '!=', 'siswa')->where('role', '!=', 'admin')->latest()->get()
         ];
-        return view('layouts.admin.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function create() {
@@ -22,7 +22,7 @@ class AdminGuruController extends Controller
             'content' => 'admin.guru.create',
             'title' => 'Guru'
         ];
-        return view('layouts.admin.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function store(Request $request) {
@@ -51,7 +51,7 @@ class AdminGuruController extends Controller
             'title' => 'Guru',
             'guru' => User::find($idDec)
         ];
-        return view('layouts.admin.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function update(Request $request, $id) {

@@ -10,11 +10,7 @@
 @endif
 <div class="w-full bg-white p-4 rounded-lg shadow-md border border-gray-200">
     <div class="text-center mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 mx-auto mb-1" fill="none"
-            viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 20h9M12 4h9M3 4h.01M3 20h.01M4 12h16M4 12l4-4m0 8l-4-4" />
-        </svg>
+        <i class="fas fa-clipboard text-blue-600 text-2xl mx-auto mb-1"></i>
         <h2 class="text-lg font-semibold text-gray-800">Form Aduan</h2>
     </div>
 
@@ -26,15 +22,18 @@
             <div class="flex-1">
                 <label for="judul" class="block text-sm font-medium text-gray-600 mb-1">Judul</label>
                 <input type="text" id="judul" name="title" value="{{ old('title') }}"
-                    placeholder="Judul singkat aduan"
+                    placeholder="Judul singkat aduan (30 karakter)"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:ring-blue-200" />
+                @error('title')
+                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                @enderror
             </div>
 
             <!-- Tujuan Aduan -->
             <div class="flex-1">
                 <label for="jenis" class="block text-sm font-medium text-gray-600 mb-1">Tujuan Aduan</label>
                 <select id="jenis" name="target_user_id"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:ring-blue-200">
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:ring-blue-200" required>
                     <option value="" selected disabled>-- Pilih --</option>
                     @foreach ($sendto as $sen)
                         <option value="{{ $sen->id }}">{{ $sen->nama }} - @if ($sen->role == 'kepala-sekolah')
@@ -95,7 +94,7 @@
     const previewContainer = document.getElementById('imagePreviewContainer');
     let selectedFiles = [];
 
-    inputFile.addEventListener('change', function () {
+    inputFile.addEventListener('change', function() {
         previewContainer.innerHTML = '';
         selectedFiles = Array.from(this.files);
 
@@ -108,7 +107,7 @@
         selectedFiles.forEach((file, index) => {
             const reader = new FileReader();
 
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 const wrapper = document.createElement('div');
                 wrapper.className =
                     'relative w-24 h-24 rounded-lg overflow-hidden shadow';

@@ -17,7 +17,7 @@ class SiswaProfileController extends Controller
             'title' => 'Profil Saya',
             'user' => User::find(Auth::user()->id)
         ];
-        return view('layouts.siswa.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function update(Request $request, $id)

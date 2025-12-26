@@ -1,5 +1,5 @@
 <main class="flex-1 ml-0 sm:ml-64 p-6">
-    <div class="sticky top-6 z-30">
+    <div class="{{ $title == 'Riwayat_detail' ? '' : 'sticky top-6 z-30' }}">
         <div
             class="flex shadow-lg justify-between items-center bg-gradient-to-tl from-blue-700 to-teal-400 text-white px-6 py-4 rounded-lg shadow mb-6">
             <div class="flex items-center space-x-4">
@@ -10,12 +10,12 @@
                     </svg>
                 </button>
                 <div class="breadcrumb hidden sm:flex space-x-2 items-center">
-                    <a href="#" class="text-2xl text-white font-semibold">{{ $title }}</a>
+                    <a href="#" class="text-2xl text-white font-semibold">{{ $title == 'Riwayat_detail' ? 'Detail Riwayat' : $title }}</a>
                 </div>
             </div>
     
             <div class="flex items-center space-x-4">
-                <button id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification"
+                <button id="dropdownNotificationButton"
                     class="relative inline-flex items-center text-sm font-medium text-center text-gray-100 hover:text-gray-100 focus:outline-none light:hover:text-white light:text-gray-400"
                     type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -29,10 +29,9 @@
                 </button>
     
                 <div id="dropdownNotification"
-                    class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow-sm light:bg-gray-800 light:divide-gray-700"
-                    aria-labelledby="dropdownNotificationButton">
+                    class="absolute top-20 right-0 sm:top-5 sm:right-[120px] z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow-lg light:bg-gray-800 light:divide-gray-700">
                     <div
-                        class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 light:bg-gray-800 light:text-white">
+                        class="block px-4 py-2 font-medium text-center text-white rounded-t-lg bg-gradient-to-tl from-blue-500 to-blue-400">
                         Notifications
                     </div>
                     <div class="divide-y divide-gray-100 light:divide-gray-700">
@@ -64,6 +63,33 @@
                             </div>
                         </div>
     
+                        <!-- Notifikasi: Nur Hasanah -->
+                        <div class="flex px-4 py-3 hover:bg-gray-100 light:hover:bg-gray-700">
+                            <div class="shrink-0 relative">
+                                <img class="rounded-full object-cover w-11 h-11" src="image/logo-smkn2kra.webp"
+                                    alt="Logo SMKN 2">
+                                <div
+                                    class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-red-500 border border-white rounded-full light:border-gray-800">
+                                    <svg class="w-2 h-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                        viewBox="0 0 18 18">
+                                        <path
+                                            d="M1 18h16a1 1 0 0 0 1-1v-6h-4.439a.99.99 0 0 0-.908.6 3.978 3.978 0 0 1-7.306 0 .99.99 0 0 0-.908-.6H0v6a1 1 0 0 0 1 1Z" />
+                                        <path
+                                            d="M4.439 9a2.99 2.99 0 0 1 2.742 1.8 1.977 1.977 0 0 0 3.638 0A2.99 2.99 0 0 1 13.561 9H17.8L15.977.783A1 1 0 0 0 15 0H3a1 1 0 0 0-.977.783L.2 9h4.239Z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="w-full ps-3">
+                                <div class="text-gray-500 text-sm light:text-gray-400">
+                                    <span class="font-semibold text-gray-900 light:text-white">Tata Usaha</span>
+                                </div>
+                                <span class="text-gray-400 text-xs light:text-white">
+                                    Nur Hasanah - Banyak sampah menumpuk di kantin, harap ditindak. Laporan ditolak.
+                                </span>
+                                <div class="text-xs text-red-600 light:text-red-500">19 Juli 2025, 09:00</div>
+                            </div>
+                        </div>
+                        
                         <!-- Notifikasi: Nur Hasanah -->
                         <div class="flex px-4 py-3 hover:bg-gray-100 light:hover:bg-gray-700">
                             <div class="shrink-0 relative">

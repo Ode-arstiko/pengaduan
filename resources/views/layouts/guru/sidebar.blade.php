@@ -1,5 +1,5 @@
 <aside id="sidebar"
-    class="w-64 bg-gradient-to-tr from-blue-700 to-teal-500 text-white p-5 flex flex-col shadow-lg fixed inset-y-0 left-0 transform -translate-x-full  sm:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+    class="w-64 rounded-r-[20px] bg-gradient-to-tr from-blue-700 to-teal-500 text-white p-5 flex flex-col shadow-lg fixed inset-y-0 left-0 transform -translate-x-full  sm:translate-x-0 transition-transform duration-300 ease-in-out z-50">
 
     <div class="text-center mb-10">
         <img src="{{ asset('assets/logo/logo-smkn2kra.webp') }}" alt="Logo"
@@ -55,7 +55,7 @@
 </aside>
 
 <div id="sidebar-overlay"
-    class="fixed inset-0 bg-black/50 z-30
+    class="fixed inset-0 bg-black/50 z-40
     opacity-0 pointer-events-none
     transition-opacity duration-300 sm:hidden">
 </div>

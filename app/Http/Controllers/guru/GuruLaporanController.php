@@ -15,10 +15,10 @@ class GuruLaporanController extends Controller
         $data = [
             'content' => 'guru.laporan.index',
             'title' => 'Laporan',
-            'reports' => Reports::where('target_user_id', Auth::user()->id)->where('status', 'baru')->get()
+            'reports' => Reports::where('target_user_id', Auth::user()->id)->where('status', 'baru')->latest()->get()
         ];
 
-        return view('layouts.guru.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function send(Request $request)
