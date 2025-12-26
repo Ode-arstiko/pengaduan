@@ -23,11 +23,11 @@
     </div>
 
     <!-- Table -->
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto overflow-y-auto h-[350px] w-[310px] sm:w-full">
         <div class="space-x-2 mb-4 px-2">
-            <table class="w-[800px] sm:w-full text-left border-collapse">
+            <table class="w-[700px] sm:w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-gray-200 text-sm text-gray-500">
+                    <tr class="border-b-2 sticky top-0 bg-white border-gray-200 text-sm text-gray-500">
                         <th class="px-4 py-3">NO</th>
                         <th class="px-4 py-3">JUDUL</th>
                         <th class="px-4 py-3">PELAPOR</th>
@@ -39,13 +39,14 @@
                 <tbody id="tableBody" class="text-gray-700">
                     <!-- Row 1 -->
                     @foreach ($reports as $report)
-                        <tr class="border-b border-gray-100 hover:bg-gray-50" data-title="{{ $report->title }}" data-date="{{ $report->created_at }}">
+                        <tr class="border-b border-gray-100 hover:bg-gray-50" data-title="{{ $report->title }}"
+                            data-date="{{ $report->created_at }}">
                             <td class="px-4 py-3">{{ $loop->iteration }}</td>
                             <td class="px-4 py-3">{{ $report->title }}</td>
                             <td class="px-4 py-3 flex items-center space-x-2">
                                 @if ($report->reporter->profile == null)
                                     <div
-                                        class="w-10 sm:w-7 h-7 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs font-semibold">
+                                        class="w-10 h-10 sm:w-7 sm:h-7 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs font-semibold">
                                         {{ getInitials($report->reporter->nama) }}
                                     </div>
                                 @else
@@ -64,7 +65,7 @@
                             <td class="px-4 py-3">{{ $report->created_at }}</td>
                             <td class="px-4 py-3 text-center">
                                 <button
-                                    onclick="document.getElementById('modalJawabDitolak').classList.remove('hidden')"
+                                    onclick="document.getElementById('modalJawabDitolak{{ $report->id }}').classList.remove('hidden')"
                                     class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1.5 rounded flex items-center space-x-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -74,7 +75,7 @@
                                 </button>
                             </td>
 
-                            <div id="modalJawabDitolak"
+                            <div id="modalJawabDitolak{{ $report->id }}"
                                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden overflow-y-auto">
                                 <div class="bg-white rounded-lg w-full max-w-2xl mx-4 my-2 p-6 relative max-h-[90vh] h-fit overflow-y-auto"
                                     style="margin-top: 10px; margin-bottom: 10px;">
@@ -125,7 +126,8 @@
                                         @csrf
                                         <input type="text" name="report_id" value="{{ $report->id }}" hidden>
                                         <input type="text" name="sender_id" value="{{ Auth::user()->id }}" hidden>
-                                        <input type="text" name="receiver_id" value="{{ $report->reporter->id }}" hidden>
+                                        <input type="text" name="receiver_id" value="{{ $report->reporter->id }}"
+                                            hidden>
                                         <div class="mb-4">
                                             <label class="block mb-1 font-medium text-gray-700">Status Laporan</label>
                                             <div class="flex items-center space-x-1 mt-2">
@@ -165,13 +167,12 @@
                                                 class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg">
                                                 Kirim
                                             </button>
-                                        </form>
-                                        <button
-                                            onclick="document.getElementById('modalJawabDitolak').classList.add('hidden')"
-                                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg">
-                                            Batal
-                                        </button>
-                                    </div>
+                                    </form>
+                                    <button type="button"
+                                        onclick="document.getElementById('modalJawabDitolak{{ $report->id }}').classList.add('hidden')"
+                                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg">
+                                        Batal
+                                    </button>
                                 </div>
                             </div>
                         </tr>
@@ -181,32 +182,8 @@
         </div>
     </div>
 </div>
+
 <script>
-    function showFullImage(modalId, src) {
-        document.getElementById(modalId).classList.remove("hidden");
-        document.getElementById("modalImage_" + modalId).src = src;
-    }
-
-    function closeImageModal(modalId) {
-        document.getElementById(modalId).classList.add("hidden");
-    }
-
-
-    function toggleDropdown() {
-        const menu = document.getElementById("dropdown-menu");
-        menu.classList.toggle("hidden");
-    }
-
-    // Tutup dropdown saat klik di luar
-    window.addEventListener("click", function(e) {
-        const btn = document.querySelector("button[onclick='toggleDropdown()']");
-        const menu = document.getElementById("dropdown-menu");
-
-        if (!btn.contains(e.target) && !menu.contains(e.target)) {
-            menu.classList.add("hidden");
-        }
-    });
-
     const searchInput = document.getElementById("searchInput");
     const dateFilter = document.getElementById("dateFilter");
     const rows = document.querySelectorAll("tbody tr");

@@ -5,13 +5,16 @@ use App\Http\Controllers\admin\AdminDashboardController;
 use App\Http\Controllers\admin\AdminGuruController;
 use App\Http\Controllers\admin\AdminSiswaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\guru\GuruCetakLaporanController;
 use App\Http\Controllers\guru\GuruDashboardController;
 use App\Http\Controllers\siswa\siswaDashboardController;
 use App\Http\Controllers\siswa\SiswaLaporanController;
 use App\Http\Controllers\guru\GuruLaporanController;
+use App\Http\Controllers\guru\GuruNotifikasiController;
 use App\Http\Controllers\guru\GuruProfileController;
 use App\Http\Controllers\guru\GuruRiwayatController;
+use App\Http\Controllers\siswa\SiswaNotifikasiController;
 use App\Http\Controllers\siswa\SiswaProfileController;
 use App\Http\Controllers\siswa\SiswaRiwayatController;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +36,8 @@ Route::get('/register', [AuthController::class, 'register']);
 Route::post('/doRegister', [AuthController::class, 'doRegister']);
 Route::post('/doLogin', [AuthController::class, 'doLogin']);
 Route::get('/logout', [AuthController::class, 'logout']);
+Route::post('/notifikasi/read/{id}', [Controller::class, 'markAsRead']);
+Route::post('/notifikasi/markAll', [Controller::class, 'markAll']);
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
@@ -73,6 +78,8 @@ Route::middleware(['auth'])->group(function () {
         //profile
         Route::get('/siswa/profile', [SiswaProfileController::class, 'index']);
         Route::post('/siswa/profile/update/{id}', [SiswaProfileController::class, 'update']);
+        //notifikasi
+        Route::get('/siswa/notifikasi', [SiswaNotifikasiController::class, 'index']);
     });
     Route::middleware(['role:kepala-sekolah,waka-kesiswaan,waka-kurikulum,BK,tata-usaha'])->group(function () {
         //dashboard
@@ -90,5 +97,7 @@ Route::middleware(['auth'])->group(function () {
         //profile
         Route::get('/guru/profile', [GuruProfileController::class, 'index']);
         Route::put('/guru/profile/update/{id}', [GuruProfileController::class, 'update']);
+        //notifikasi
+        Route::get('/guru/notifikasi', [GuruNotifikasiController::class, 'index']);
     });
 });

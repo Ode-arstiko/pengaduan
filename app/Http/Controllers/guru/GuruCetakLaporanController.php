@@ -14,6 +14,6 @@ class GuruCetakLaporanController extends Controller
             'title' => 'Cetak Laporan',
         ];
 
-        return view('layouts.guru.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 }

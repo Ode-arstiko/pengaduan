@@ -76,83 +76,156 @@
     <!-- Isi Aduan -->
     <div class="bg-white rounded-lg p-4 shadow mb-4">
         <div class="flex items-start space-x-4">
-            <!-- Gambar Thumbnail -->
-            <!-- Thumbnail Gambar -->
-            @if ($riwayat->photos->isEmpty())
+
+            <!-- Thumbnail -->
+            @php
+                $reportPhotos = $riwayat->photos;
+            @endphp
+
+            @if ($reportPhotos->isEmpty())
                 <img src="{{ asset('assets/logo/logo-smkn2kra.webp') }}"
                     class="w-24 h-24 object-cover rounded-lg shadow">
             @else
-                <img src="{{ asset('assets/photos/' . $photo->photo_url) }}"
-                    onclick="showFullImage('modalBuktiLaporan', '{{ asset('assets/photos/' . $photo->photo_url) }}')"
+                <img src="{{ asset('assets/photos/' . $reportPhotos[0]->photo_url) }}"
+                    onclick="openReportSlider({{ $reportPhotos->pluck('photo_url')->toJson() }})"
                     class="w-24 h-24 object-cover rounded-lg shadow cursor-pointer">
             @endif
 
-            <!-- Modal Gambar Besar di modalBuktiLaporan -->
-            <div id="modalBuktiLaporan"
-                class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center px-4 py-10">
-                <div class="relative">
-                    <!-- Tombol Close -->
-                    <button onclick="closeImageModal('modalBuktiLaporan')"
-                        class="absolute -top-4 -right-4 bg-white rounded-full p-1 shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                    <!-- Gambar Besar -->
-                    <img id="modalImage_modalBuktiLaporan" src="" alt="Gambar Besar"
-                        class="max-w-full max-h-[90vh] rounded-lg shadow-lg">
+
+            <!-- Modal Slider -->
+            <div id="reportSliderModal"
+                class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
+
+                <div class="relative max-w-4xl w-full px-4">
+
+                    <button onclick="closeReportSlider()"
+                        class="absolute top-2 right-2 text-white text-3xl">&times;</button>
+
+                    <button onclick="prevReportImage()"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-4">‹</button>
+
+                    <img id="reportSliderImage"
+                        class="mx-auto max-h-[90vh] rounded-lg shadow-lg transition-all duration-300">
+
+                    <button onclick="nextReportImage()"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl px-4">›</button>
+
+                    <p id="reportImageCounter" class="text-center text-white text-sm mt-2"></p>
                 </div>
             </div>
 
-            <!-- JavaScript -->
+
 
             <!-- Konten Aduan -->
             <div>
-                <!-- Judul -->
                 <h2 class="text-lg font-semibold text-gray-800 mb-1">Judul Laporan: {{ $riwayat->title }}</h2>
-
-                <!-- Nama Pengirim & Tanggal -->
-                <p class="text-sm text-gray-500 mb-2">Dikirim oleh <span
-                        class="font-medium text-gray-700">{{ $riwayat->reporter->nama }}</span> pada
-                    <span>{{ substr($riwayat->created_at, 0, 10) }}</span>
+                <p class="text-sm text-gray-500 mb-2">
+                    Dikirim oleh <span class="font-medium text-gray-700">{{ $riwayat->reporter->nama }}</span>
+                    pada <span>{{ substr($riwayat->created_at, 0, 10) }}</span>, <span>{{ substr($riwayat->created_at, 11, 5) }}</span>
                 </p>
-
-                <!-- Isi Laporan -->
-                <p class="text-sm text-gray-700">
-                    {{ $riwayat->description }}
-                </p>
+                <p class="text-sm break-all hidden sm:flex text-gray-700">{{ $riwayat->description }}</p>
             </div>
+        </div>
+        <div>
+            <p class="text-sm mt-3 flex sm:hidden break-all text-gray-700">{{ $riwayat->description }}</p>
         </div>
     </div>
 
     <!-- Riwayat Tanggapan -->
-    <div id="chatContainer" class="bg-white rounded-lg p-4 shadow mb-4 h-64 overflow-y-auto space-y-4 flex flex-col">
+    <div id="chatContainer"
+        class="bg-white rounded-lg p-4 shadow mb-4 h-[500px] overflow-y-auto space-y-4 flex flex-col">
         @foreach ($chats as $chat)
             @php
-                if ($chat->sender_id == Auth::user()->id && $chat->receiver_id != Auth::user()->id) {
-                    $profileImage = $chat->sender->profile;
-                } elseif ($chat->sender_id != Auth::user()->id && $chat->receiver_id == Auth::user()->id) {
-                    $profileImage = $chat->sender->profile;
-                }
-
-                $profileImage = $profileImage ? $profileImage : 'user.png';
+                $isMe = $chat->sender_id == Auth::user()->id;
+                $profileImage = $chat->sender->profile ?? 'user.png';
+                $limit = 100;
+                $isLong = strlen($chat->message) > $limit;
             @endphp
-            <div
-                class="flex @if ($chat->sender_id == Auth::user()->id) items-center space-x-3 space-x-reverse self-end flex-row-reverse @else items-start space-x-3 @endif">
-                <img src="{{ asset('assets/profil/' . $profileImage) }}" alt="Profil"
-                    class="w-12 h-12 rounded-full object-cover" />
-                <div>
+
+            <div class="flex {{ $isMe ? 'justify-end' : 'justify-start' }}">
+                <div class="flex items-start gap-2 {{ $isMe ? 'flex-row-reverse' : '' }}">
+
+                    <img src="{{ asset('assets/profil/' . $profileImage) }}" class="w-9 h-9 rounded-full object-cover">
+
+                    <!-- BUBBLE -->
                     <div
-                        class="@if ($chat->sender_id == Auth::user()->id) bg-blue-100 @else bg-gray-100 @endif text-sm p-2 rounded-lg max-w-xs mt-1">
-                        <span class="block text-blue-500 font-semibold">
-                            @if ($chat->sender_id == Auth::user()->id && $chat->receiver_id != Auth::user()->id)
-                                {{ $chat->sender->nama }}
-                            @elseif($chat->sender_id != Auth::user()->id && $chat->receiver_id == Auth::user()->id)
-                                {{ $chat->sender->nama }}
-                            @endif
+                        class="{{ $isMe ? 'bg-blue-100' : 'bg-gray-100' }}
+                    inline-block w-fit max-w-[85%]
+                    p-3 rounded-lg break-all overflow-hidden">
+
+                        <!-- Nama -->
+                        <span class="block text-xs font-semibold text-blue-600 mb-1">
+                            {{ $chat->sender->nama }}
                         </span>
-                        <p>{{ $chat->message }}</p>
+
+                        <!-- FOTO CHAT -->
+                        @if ($chat->photos->count())
+                            @php
+                                $photos = $chat->photos;
+                                $total = $photos->count();
+                                $displayPhotos = $photos->take(4);
+                            @endphp
+
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                @foreach ($displayPhotos as $index => $photo)
+                                    <div class="relative">
+                                        <img src="{{ asset('assets/chat_photos/' . $photo->photo_url) }}"
+                                            class="w-full h-40 object-cover rounded-lg cursor-pointer"
+                                            onclick="openChatSlider({{ $photos->pluck('photo_url')->toJson() }}, {{ $index }})">
+
+                                        @if ($index === 3 && $total > 4)
+                                            <div
+                                                class="absolute inset-0 bg-black bg-opacity-60 rounded-lg
+                        flex items-center justify-center text-white text-3xl font-bold">
+                                                +{{ $total - 4 }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        <div id="chatSliderModal"
+                            class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
+
+                            <div class="relative max-w-4xl w-full px-4">
+
+                                <button onclick="closeChatSlider()"
+                                    class="absolute top-2 right-2 text-white text-3xl">&times;</button>
+
+                                <button onclick="prevChatImage()"
+                                    class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-4">‹</button>
+
+                                <img id="chatSliderImage"
+                                    class="mx-auto max-h-[90vh] rounded-lg shadow-lg transition-all duration-300">
+
+                                <button onclick="nextChatImage()"
+                                    class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl px-4">›</button>
+
+                                <p id="chatImageCounter" class="text-center text-white text-sm mt-2"></p>
+                            </div>
+                        </div>
+
+
+                        <!-- PESAN -->
+                        @if ($chat->message)
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                <span class="short-text">
+                                    {{ $isLong ? Str::limit($chat->message, $limit) : $chat->message }}
+                                </span>
+
+                                @if ($isLong)
+                                    <span class="full-text hidden">
+                                        {{ $chat->message }}
+                                    </span>
+
+                                    <button type="button" class="block text-blue-500 text-xs mt-1"
+                                        onclick="toggleMessage(this)">
+                                        Baca selengkapnya
+                                    </button>
+                                @endif
+                            </p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -162,6 +235,8 @@
     <!-- Input Chat -->
     <form action="/riwayat-laporan/send/{{ encrypt($riwayat->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <!-- Preview Image -->
+        <div id="imagePreviewContainer" class="flex gap-3 mb-2 hidden flex-wrap"></div>
         <div class="flex items-center bg-white rounded-lg shadow p-2">
             <!-- Input teks -->
             <input type="text" name="sender_id" value="{{ Auth::user()->id }}" id="" hidden>
@@ -174,16 +249,17 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 13.5a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
             </label>
-            <input type="file" id="file-upload" accept="image/*" class="hidden"
+            <input type="file" id="file-upload" name="photos[]" accept="image/*" multiple class="hidden"
                 {{ $riwayat->status == 'proses' ? '' : 'disabled' }} />
-            <input type="text" name="message" class="flex-1 px-3 py-2 outline-none text-sm" required
-                @if ($riwayat->status == 'baru') placeholder="Tunggu sampai guru menerima laporanmu..." disabled @elseif($riwayat->status == 'selesai') placeholder="Sesi percakapan ditutup, laporan sudah di selesaikan..." disabled @else placeholder="Ketik pesan..." @endif />
+            <input type="text"
+                placeholder="{{ $riwayat->status == 'proses' ? 'Ketik tanggapan...' : 'Tunggu hingga penerima laporan mensetujui laporan...' }}{{ $riwayat->status == 'selesai' ? 'Sesi percakapan ditutup, laporan sudah di selesaikan...' : '' }}"
+                name="message" class="flex-1 px-3 py-2 outline-none text-sm" required
+                {{ $riwayat->status == 'proses' ? '' : 'readonly' }} />
 
             <!-- Input file (ikon kamera) -->
 
             <!-- Tombol Kirim -->
-            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm"
-                @if ($riwayat->status == 'baru' || $riwayat->status == 'selesai') disabled @endif>Kirim</button>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">Kirim</button>
         </div>
     </form>
 @else
@@ -196,7 +272,7 @@
         </div>
 
         <div class="flex flex-col md:flex-row gap-6">
-            @if($riwayat->photos->isEmpty())
+            @if ($riwayat->photos->isEmpty())
                 <img src="{{ asset('assets/logo/logo-smkn2kra.webp') }}" alt="Logo Sekolah"
                     class="w-24 h-24 rounded-lg object-cover shadow-md">
             @else
@@ -303,8 +379,155 @@
     }
 </script>
 <script>
-    window.addEventListener('load', function () {
+    window.addEventListener('load', function() {
         const container = document.getElementById('chatContainer');
         container.scrollTop = container.scrollHeight;
     });
+</script>
+<script>
+    function toggleMessage(button) {
+        const parent = button.closest('p');
+        const shortText = parent.querySelector('.short-text');
+        const fullText = parent.querySelector('.full-text');
+
+        if (fullText.classList.contains('hidden')) {
+            shortText.classList.add('hidden');
+            fullText.classList.remove('hidden');
+            button.innerText = 'Tutup';
+        } else {
+            shortText.classList.remove('hidden');
+            fullText.classList.add('hidden');
+            button.innerText = 'Baca selengkapnya';
+        }
+    }
+</script>
+<script>
+    let reportImages = [];
+    let reportIndex = 0;
+
+    function openReportSlider(photoArray, start = 0) {
+        reportImages = photoArray.map(p => `/assets/photos/${p}`);
+        reportIndex = start;
+
+        updateReportSlider();
+        document.getElementById('reportSliderModal').classList.remove('hidden');
+    }
+
+    function updateReportSlider() {
+        document.getElementById('reportSliderImage').src = reportImages[reportIndex];
+        document.getElementById('reportImageCounter').innerText =
+            `${reportIndex + 1} / ${reportImages.length}`;
+    }
+
+    function nextReportImage() {
+        reportIndex = (reportIndex + 1) % reportImages.length;
+        updateReportSlider();
+    }
+
+    function prevReportImage() {
+        reportIndex = (reportIndex - 1 + reportImages.length) % reportImages.length;
+        updateReportSlider();
+    }
+
+    function closeReportSlider() {
+        document.getElementById('reportSliderModal').classList.add('hidden');
+    }
+</script>
+<script>
+    let chatImages = [];
+    let chatIndex = 0;
+
+    function openChatSlider(photoArray, start = 0) {
+        chatImages = photoArray.map(p => `/assets/chat_photos/${p}`);
+        chatIndex = start;
+
+        updateChatSlider();
+        document.getElementById('chatSliderModal').classList.remove('hidden');
+    }
+
+    function updateChatSlider() {
+        document.getElementById('chatSliderImage').src = chatImages[chatIndex];
+        document.getElementById('chatImageCounter').innerText =
+            `${chatIndex + 1} / ${chatImages.length}`;
+    }
+
+    function nextChatImage() {
+        chatIndex = (chatIndex + 1) % chatImages.length;
+        updateChatSlider();
+    }
+
+    function prevChatImage() {
+        chatIndex = (chatIndex - 1 + chatImages.length) % chatImages.length;
+        updateChatSlider();
+    }
+
+    function closeChatSlider() {
+        document.getElementById('chatSliderModal').classList.add('hidden');
+    }
+</script>
+<script>
+    const inputFile = document.getElementById('file-upload');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    let selectedFiles = [];
+
+    inputFile.addEventListener('change', function() {
+        previewContainer.innerHTML = '';
+        selectedFiles = Array.from(this.files);
+
+        if (selectedFiles.length > 0) {
+            previewContainer.classList.remove('hidden');
+        }
+
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'relative w-24 h-24 rounded-lg overflow-hidden shadow';
+
+                wrapper.innerHTML = `
+                <img src="${e.target.result}"
+                    class="w-full h-full object-cover rounded-lg">
+
+                <button type="button"
+                    onclick="removeImage(${index})"
+                    class="absolute top-1 right-1
+                        w-6 h-6
+                        flex items-center justify-center
+                        bg-white text-gray-700
+                        rounded-full shadow-md
+                        hover:bg-red-500 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        class="w-4 h-4">
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            `;
+
+                previewContainer.appendChild(wrapper);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    });
+
+    function removeImage(index) {
+        selectedFiles.splice(index, 1);
+
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => dataTransfer.items.add(file));
+        inputFile.files = dataTransfer.files;
+
+        if (selectedFiles.length === 0) {
+            previewContainer.classList.add('hidden');
+        }
+
+        inputFile.dispatchEvent(new Event('change'));
+    }
 </script>

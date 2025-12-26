@@ -25,4 +25,12 @@ class Reports extends Model
     public function chats() {
         return $this->hasMany(Chats::class, 'report_id', 'id');
     }
+
+    public function reportNotifs() {
+        return $this->hasMany(Notifications::class, 'report_id', 'id');
+    }
+
+    public function chatNotifs() {
+        return $this->hasMany(Notifications::class, 'chat_id', 'id');
+    }
 }

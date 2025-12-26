@@ -12,6 +12,6 @@ class AdminDashboardController extends Controller
             'content' => 'admin.dashboard.index',
             'title' => 'Dashboard'
         ];
-        return view('layouts.admin.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 }

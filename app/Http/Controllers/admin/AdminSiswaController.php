@@ -14,7 +14,7 @@ class AdminSiswaController extends Controller
             'title' => 'Siswa',
             'siswa' => User::where('role', 'siswa')->latest()->get()
         ];
-        return view('layouts.admin.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function create() {
@@ -22,7 +22,7 @@ class AdminSiswaController extends Controller
             'content' => 'admin.siswa.create',
             'title' => 'Siswa'
         ];
-        return view('layouts.admin.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function store(Request $request) {
@@ -51,7 +51,7 @@ class AdminSiswaController extends Controller
             'title' => 'Siswa',
             'siswa' => User::find($idDec)
         ];
-        return view('layouts.admin.wrapper', $data);
+        return view('layouts.wrapper', $data);
     }
 
     public function update(Request $request, $id) {

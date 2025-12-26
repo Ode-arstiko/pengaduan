@@ -69,7 +69,7 @@
         <!-- Tombol Selesai di pojok kanan atas -->
         <button onclick="location.href='/guru/riwayat/detail/selesai/{{ encrypt($riwayat->id) }}'"
             @if ($riwayat->status == 'selesai') disabled @endif
-            class="absolute top-3 right-3 @if ($riwayat->status != 'selesai') bg-green-500 hover:bg-green-600 @endif bg-green-400 text-white text-sm font-semibold px-3 py-1.5 rounded-lg shadow transition">
+            class="absolute hidden sm:flex top-3 right-3 @if ($riwayat->status != 'selesai') bg-green-500 hover:bg-green-600 @endif bg-green-400 text-white text-sm font-semibold px-3 py-1.5 rounded-lg shadow transition">
             Selesai
         </button>
 
@@ -119,11 +119,17 @@
                 <h2 class="text-lg font-semibold text-gray-800 mb-1">Judul Laporan: {{ $riwayat->title }}</h2>
                 <p class="text-sm text-gray-500 mb-2">
                     Dikirim oleh <span class="font-medium text-gray-700">{{ $riwayat->reporter->nama }}</span>
-                    pada <span>{{ substr($riwayat->created_at, 0, 10) }}</span>
+                    pada <span>{{ substr($riwayat->created_at, 0, 10) }}</span>, <span>{{ substr($riwayat->created_at, 11, 5) }}</span>
                 </p>
-                <p class="text-sm text-gray-700">{{ $riwayat->description }}</p>
+                <p class="text-sm hidden sm:flex break-all text-gray-700">{{ $riwayat->description }}</p>
+                <button onclick="location.href='/guru/riwayat/detail/selesai/{{ encrypt($riwayat->id) }}'"
+                    @if ($riwayat->status == 'selesai') disabled @endif
+                    class="@if ($riwayat->status != 'selesai') bg-green-500 flex sm:hidden hover:bg-green-600 @endif bg-green-400 flex sm:hidden text-white text-sm font-semibold px-3 py-1.5 rounded-lg shadow transition">
+                    Selesai
+                </button>
             </div>
         </div>
+        <p class="text-sm break-all mt-3 flex sm:hidden text-gray-700">{{ $riwayat->description }}</p>
     </div>
 
     <!-- Riwayat Tanggapan -->
