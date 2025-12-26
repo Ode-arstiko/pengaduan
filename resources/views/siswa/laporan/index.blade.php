@@ -61,7 +61,6 @@
         </div>
 
         <!-- Upload Foto -->
-        <!-- Upload Foto -->
         <div>
             <label for="foto" class="block text-sm font-medium text-gray-600 mb-1">
                 Upload Foto (Bisa lebih dari satu)
@@ -69,10 +68,10 @@
 
             <input type="file" accept="image/*" id="foto" name="photos[]" multiple
                 class="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg bg-white
-               file:mr-3 file:py-2 file:px-4
-               file:rounded-md file:border-0 file:text-sm file:font-medium
-               file:bg-blue-50 file:text-blue-700
-               hover:file:bg-blue-100 transition duration-200" />
+                file:mr-3 file:py-2 file:px-4
+                file:rounded-md file:border-0 file:text-sm file:font-medium
+                file:bg-blue-50 file:text-blue-700
+                hover:file:bg-blue-100 transition duration-200" />
         </div>
 
         <!-- PREVIEW IMAGE -->

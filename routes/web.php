@@ -101,5 +101,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/guru/profile/update/{id}', [GuruProfileController::class, 'update']);
         //notifikasi
         Route::get('/guru/notifikasi', [GuruNotifikasiController::class, 'index']);
+        // cetak pdf
+        Route::get('/guru/cetak-laporan/pdf', [GuruCetakLaporanController::class, 'cetakPdf'])->name('guru.cetaklaporan.pdf');
     });
 });
