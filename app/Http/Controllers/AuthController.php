@@ -28,7 +28,11 @@ class AuthController extends Controller
         $data['role'] = 'siswa';
 
         User::create($data);
-        return redirect('/')->with('registerSuccess', 'Berhasil melakukan registrasi!');
+        Auth::attempt([
+            'username' => $request->username,
+            'password' => $request->password
+        ]);
+        return redirect('/siswa');
     }
 
     public function doLogin(Request $request)

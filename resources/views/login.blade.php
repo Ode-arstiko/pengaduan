@@ -13,6 +13,10 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        .form-panel {
+            width: 100%;
+        }
+
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #4547ba 100%);
         }
@@ -31,6 +35,11 @@
 
         .floating-elements:nth-child(3) {
             animation-delay: -4s;
+        }
+
+        .scroll-area::-webkit-scrollbar {
+            width: 0px;
+            height: 0px;
         }
 
         @keyframes float {
@@ -166,88 +175,245 @@
         <!-- Right Section -->
         <div class="mobile-full lg:w-2/5 flex items-center justify-center mobile-padding lg:p-8 bg-gray-50">
             <div class="w-full max-w-md glass-effect mobile-padding lg:p-10 rounded-3xl card-shadow">
+                <div class="relative px-2 scroll-area overflow-y-auto">
 
-                <!-- Header -->
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl lg:text-4xl font-bold text-gradient mb-2">Selamat Datang</h2>
-                    <p class="text-gray-600 font-medium">Masuk untuk melanjutkan</p>
-                    @if (session('loginError'))
-                        <div class="bg-red-100 mt-2 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative"
-                            role="alert">
-                            <strong class="font-bold">Login gagal!</strong>
-                            <span class="block sm:inline">{{ session('loginError') }}</span>
+                    <div id="loginForm" class="form-panel transition-all duration-500 ease-in-out">
+                        <!-- Header -->
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl lg:text-4xl font-bold text-gradient mb-2">Selamat Datang</h2>
+                            <p class="text-gray-600 font-medium">Masuk untuk melanjutkan</p>
+                            @if (session('loginError'))
+                                <div class="bg-red-100 mt-2 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative"
+                                    role="alert">
+                                    <strong class="font-bold">Login gagal!</strong>
+                                    <span class="block sm:inline">{{ session('loginError') }}</span>
+                                </div>
+                            @endif
                         </div>
-                    @endif
+
+                        <!-- Form -->
+                        <form action="/doLogin" class="space-y-6" method="POST">
+                            @csrf
+                            <!-- Username Field -->
+                            <div class="space-y-2">
+                                <label for="username" class="block text-sm font-semibold text-gray-700">Username</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" name="username" id="username"
+                                        placeholder="Masukkan username Anda"
+                                        class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white" />
+                                    @error('username')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Password Field -->
+                            <div class="space-y-2">
+                                <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                    </div>
+                                    <input type="password" name="password" id="password"
+                                        placeholder="Masukkan password Anda"
+                                        class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white" />
+                                    @error('password')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Remember Me & Forgot Password -->
+                            <div class="flex items-center justify-between text-sm">
+                                <label class="flex items-center">
+                                    <input type="checkbox"
+                                        class="rounded border-gray-300 text-purple-600 focus:ring-purple-500 focus:ring-offset-0">
+                                    <span class="ml-2 text-gray-600">Remember me</span>
+                                </label>
+                                <a href="#" class="text-purple-600 hover:text-purple-800 font-medium">Lupa
+                                    password?</a>
+                            </div>
+
+                            <!-- Login Button -->
+                            <button type="submit"
+                                class="btn-hover w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg block text-center bg-blue-600 hover:bg-blue-700 transition duration-300">
+                                MASUK SEKARANG
+                            </button>
+
+                        </form>
+                        <p class="mt-8 text-center text-sm text-gray-600">
+                            Belum punya akun?
+                            <button onclick="showRegister()"
+                                class="font-semibold text-purple-600 hover:text-purple-800">
+                                Daftar sekarang
+                            </button>
+                        </p>
+                        <!-- Divider -->
+
+                    </div>
+
+                    <div id="registerForm"
+                        class="form-panel px-2 absolute top-0 left-0 w-full opacity-0 translate-x-10 pointer-events-none transition-all duration-500 ease-in-out">
+                        <!-- Header -->
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl lg:text-4xl font-bold text-gradient mb-2">Buat Akun Anda</h2>
+                            <p class="text-gray-600 font-medium">Daftar untuk melanjutkan</p>
+                        </div>
+
+                        <!-- Form -->
+                        <!-- Tambahkan ini di bagian form register -->
+                        <form action="/doRegister" class="space-y-6" method="POST">
+                            @csrf
+                            <!-- Nama Lengkap -->
+                            <div class="space-y-2">
+                                <label for="nama" class="block text-sm font-semibold text-gray-700">Nama
+                                    Lengkap</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5.121 17.804A4 4 0 017 16h10a4 4 0 011.879.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" id="nama" name="nama"
+                                        placeholder="Masukkan nama lengkap" required
+                                        class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                                </div>
+                            </div>
+
+                            <!-- Username -->
+                            <div class="space-y-2">
+                                <label for="username"
+                                    class="block text-sm font-semibold text-gray-700">Username</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" id="username" name="username" placeholder="Buat username"
+                                        required
+                                        class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="space-y-2">
+                                <label for="password"
+                                    class="block text-sm font-semibold text-gray-700">Password</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                    </div>
+                                    <input type="password" id="password" name="password"
+                                        placeholder="Buat password" required
+                                        class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="space-y-2">
+                                <label for="email" class="block text-sm font-semibold text-gray-700">Email ( Boleh
+                                    di
+                                    Kosongkan )</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" aria-hidden="true">
+                                            <rect x="2" y="4" width="20" height="16" rx="2"
+                                                ry="2">
+                                            </rect>
+                                            <polyline points="22,6 12,13 2,6"></polyline>
+                                        </svg>
+                                    </div>
+                                    <input type="email" id="email" placeholder="Masukkan email aktif"
+                                        class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                                </div>
+                            </div>
+
+                            <!-- No. Telepon -->
+                            <div class="space-y-2">
+                                <label for="telepon" class="block text-sm font-semibold text-gray-700">No. Telepon (
+                                    Boleh di
+                                    Kosongkan )</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 5h2l.4 2M7 13h10l1.2-6H6.4M5 21h14a2 2 0 002-2v-1H3v1a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <input type="tel" id="telepon" placeholder="Masukkan no. telepon aktif"
+                                        class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" />
+                                </div>
+                            </div>
+
+                            <!-- Register Button -->
+                            <button type="submit"
+                                class="btn-hover w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg bg-green-600 hover:bg-green-700 text-center block transition duration-300">
+                                DAFTAR SEKARANG
+                            </button>
+
+                        </form>
+
+                        <p class="mt-8 text-center text-sm text-gray-600">
+                            Sudah punya akun?
+                            <button onclick="showLogin()" class="font-semibold text-purple-600 hover:text-purple-800">
+                                Login sekarang
+                            </button>
+                        </p>
+                        <!-- Divider -->
+                    </div>
+
                 </div>
-
-                <!-- Form -->
-                <form action="/doLogin" class="space-y-6" method="POST">
-                    @csrf
-                    <!-- Username Field -->
-                    <div class="space-y-2">
-                        <label for="username" class="block text-sm font-semibold text-gray-700">Username</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
-                            <input type="text" name="username" id="username" placeholder="Masukkan username Anda"
-                                class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white" />
-                            @error('username')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <!-- Password Field -->
-                    <div class="space-y-2">
-                        <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                            </div>
-                            <input type="password" name="password" id="password" placeholder="Masukkan password Anda"
-                                class="input-focus w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white" />
-                            @error('password')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <!-- Remember Me & Forgot Password -->
-                    <div class="flex items-center justify-between text-sm">
-                        <label class="flex items-center">
-                            <input type="checkbox"
-                                class="rounded border-gray-300 text-purple-600 focus:ring-purple-500 focus:ring-offset-0">
-                            <span class="ml-2 text-gray-600">Remember me</span>
-                        </label>
-                        <a href="#" class="text-purple-600 hover:text-purple-800 font-medium">Lupa password?</a>
-                    </div>
-
-                    <!-- Login Button -->
-                    <button type="submit"
-                        class="btn-hover w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg block text-center bg-blue-600 hover:bg-blue-700 transition duration-300">
-                        MASUK SEKARANG
-                    </button>
-
-                </form>
-                <p class="mt-8 text-center text-sm text-gray-600">
-                    Belum punya akun?
-                    <a href="/register" class="font-semibold text-purple-600 hover:text-purple-800">Daftar
-                        sekarang</a>
-                </p>
-                <!-- Divider -->
-
             </div>
         </div>
 
 </body>
 
 </html>
+
+<script>
+    function showRegister() {
+        const login = document.getElementById('loginForm');
+        const register = document.getElementById('registerForm');
+
+        login.classList.add('opacity-0', '-translate-x-10', 'pointer-events-none');
+        login.classList.remove('opacity-100', 'translate-x-0');
+
+        register.classList.remove('opacity-0', 'translate-x-10', 'pointer-events-none');
+        register.classList.add('opacity-100', 'translate-x-0');
+    }
+
+    function showLogin() {
+        const login = document.getElementById('loginForm');
+        const register = document.getElementById('registerForm');
+
+        register.classList.add('opacity-0', 'translate-x-10', 'pointer-events-none');
+        register.classList.remove('opacity-100', 'translate-x-0');
+
+        login.classList.remove('opacity-0', '-translate-x-10', 'pointer-events-none');
+        login.classList.add('opacity-100', 'translate-x-0');
+    }
+</script>

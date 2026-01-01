@@ -66,7 +66,7 @@
                         <tr class="border-b border-gray-100 hover:bg-gray-50">
                             <td class="px-4 py-2">{{ $loop->iteration }}</td>
                             <td class="px-4 py-2 font-medium">{{ $report->title }}</td>
-                            <td class="px-4 py-2">{{ $report->description }}</td>
+                            <td class="px-4 py-2">{{ substr($report->description, 0, 30) }}...</td>
                             <td class="px-4 py-2">
                                 <span
                                     class="px-3 py-1 rounded-full text-xs font-semibold

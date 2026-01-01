@@ -16,12 +16,12 @@ class GuruCetakLaporanController extends Controller
 
         $reports = Reports::whereIn('status', ['selesai', 'ditolak'])
             ->when($bulan, function ($q) use ($bulan) {
-                $q->whereMonth('created_at', $bulan);
+                $q->whereMonth('updated_at', $bulan);
             })
             ->when($tahun, function ($q) use ($tahun) {
-                $q->whereYear('created_at', $tahun);
+                $q->whereYear('updated_at', $tahun);
             })
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         return view('layouts.wrapper', [
@@ -39,9 +39,9 @@ class GuruCetakLaporanController extends Controller
         $tahun = $request->tahun;
 
         $reports = Reports::whereIn('status', ['selesai', 'ditolak'])
-            ->when($bulan, fn($q) => $q->whereMonth('created_at', $bulan))
-            ->when($tahun, fn($q) => $q->whereYear('created_at', $tahun))
-            ->orderBy('created_at', 'desc')
+            ->when($bulan, fn($q) => $q->whereMonth('updated_at', $bulan))
+            ->when($tahun, fn($q) => $q->whereYear('updated_at', $tahun))
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         $pdf = Pdf::loadView('guru.cetaklaporan.pdf', [

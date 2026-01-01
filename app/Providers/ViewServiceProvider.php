@@ -30,11 +30,17 @@ class ViewServiceProvider extends ServiceProvider
                     ->latest()
                     ->limit(3)
                     ->get();
+                $newNotif = Notifications::where('user_id', Auth::user()->id)
+                    ->where('status', 'baru')
+                    ->count();
             } else {
                 $notifications = collect();
             }
 
-            $view->with('notifications', $notifications);
+            $view->with([
+                'notifications' => $notifications,
+                'newNotif' => $newNotif
+            ]);
         });
     }
 }

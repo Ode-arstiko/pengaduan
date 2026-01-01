@@ -20,7 +20,7 @@
     </div>
 
     <!-- Table -->
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto w-[310px] sm:w-full">
         <table class="w-[700px] sm:w-full text-left border-collapse">
             <thead>
                 <tr class="border-b border-gray-200 text-sm text-gray-500">
